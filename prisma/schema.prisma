@@ -12,51 +12,43 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  name       String
-  email      String      @unique
-  password   String
-  phone      String
-  created_at DateTime    @default(now())
-  updated_at DateTime    @updatedAt
-  UserRole   UserRole[]
-  Exercises  Exercises[]
+  id                 String    @id @default(uuid())
+  name               String
+  email              String    @unique
+  password           String
+  phone              String
+  created_at         DateTime  @default(now())
+  updated_at         DateTime  @updatedAt
+  UserRole           Role[]
+  workouts           Workout[] @relation("ClientWorkouts")
+  instructedWorkouts Workout[] @relation("InstructorWorkouts")
 
   @@map("users")
 }
 
-model UserRole {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  role   Role   @relation(fields: [roleId], references: [id])
-  roleId String
-
-  @@map("userRole")
-}
-
 model Role {
-  id       String     @id @default(uuid())
-  name     RoleEnum
-  UserRole UserRole[]
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[]
 
   @@map("role")
 }
 
-enum RoleEnum {
-  ADMIN
-  USER
+enum RoleName {
+  client
+  instructor
+  manager
 }
 
-model Exercises {
-  id                   String   @id @default(uuid())
-  user                 User     @relation(fields: [userId], references: [id])
-  userId               String
-  name_member          String
-  name_instructor      String
-  type_exercise        String
-  exercise_description String
-  date                 DateTime
+model Workout {
+  id                  String   @id @default(uuid())
+  client_name         User     @relation("ClientWorkouts", fields: [clientId], references: [id])
+  clientId            String
+  instructor_name     User     @relation("InstructorWorkouts", fields: [instructorId], references: [id])
+  instructorId        String
+  title_workout       String
+  description_workout String
+  date                DateTime
 
-  @@map("exercises")
+  @@map("workouts")
 }
