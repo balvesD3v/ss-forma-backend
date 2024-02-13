@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserDTO } from '../../dtos/user-dto/create-user.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaService } from '../../database/prisma.service';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from '../../dtos/user-dto/update-user.dto';
-import { UserRepository } from 'src/repositories/user/User.repository';
+import { UserRepository } from '../../repositories/user/User.repository';
 
 @Injectable()
 export class UsersService {
