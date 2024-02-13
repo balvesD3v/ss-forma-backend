@@ -8,6 +8,8 @@ import {
 } from 'class-validator';
 
 export class UserDTO {
+  id?: string;
+
   @IsNotEmpty({
     message: 'Required Field',
   })

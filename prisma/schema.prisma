@@ -12,16 +12,14 @@ datasource db {
 }
 
 model User {
-  id                 String    @id @default(uuid())
-  name               String
-  email              String    @unique
-  password           String
-  phone              String
-  created_at         DateTime  @default(now())
-  updated_at         DateTime  @updatedAt
-  UserRole           Role[]
-  workouts           Workout[] @relation("ClientWorkouts")
-  instructedWorkouts Workout[] @relation("InstructorWorkouts")
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  phone      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  UserRole   Role[]
 
   @@map("users")
 }
@@ -42,9 +40,7 @@ enum RoleName {
 
 model Workout {
   id                  String   @id @default(uuid())
-  client_name         User     @relation("ClientWorkouts", fields: [clientId], references: [id])
   clientId            String
-  instructor_name     User     @relation("InstructorWorkouts", fields: [instructorId], references: [id])
   instructorId        String
   title_workout       String
   description_workout String

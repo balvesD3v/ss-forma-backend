@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWorkoutDto } from './dto/create-workout.dto';
-import { UpdateWorkoutDto } from './dto/update-workout.dto';
+import { CreateWorkoutDto } from '../../dtos/workout-dto/create-workout.dto';
+import { UpdateWorkoutDto } from '../../dtos/workout-dto/update-workout.dto';
 
 @Injectable()
 export class WorkoutsService {

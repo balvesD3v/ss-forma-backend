@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from '../../dtos/auth-dto/create-auth.dto';
-import { UpdateAuthDto } from '../../dtos/auth-dto/update-auth.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { AuthDTO } from '../../dtos/auth-dto/create-auth.dto';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/modules/users/users.service';
+import { UserRepository } from 'src/repositories/user/User.repository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userRepository: UserRepository,
+  ) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async signIn({
+    email,
+    password,
+  }: AuthDTO): Promise<{ token: string; user: object }> {
+    const user = await this.userRepository.findByEmail(email);
+    const checkEmailExists = await this.userRepository.findByEmail(email);
+    const passwordIsValid = await bcrypt.compare(
+      password,
+      checkEmailExists.password,
+    );
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    if (!passwordIsValid) {
+      throw new HttpException('Senhas não coincidem!', HttpStatus.UNAUTHORIZED);
+    }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    delete user.password;
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    const token = this.jwtService.sign({
+      subject: String(user.id),
+    });
+
+    return { user, token };
   }
 }

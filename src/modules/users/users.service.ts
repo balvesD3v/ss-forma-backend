@@ -4,23 +4,18 @@ import { PrismaService } from 'src/database/prisma.service';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from '../../dtos/user-dto/update-user.dto';
+import { UserRepository } from 'src/repositories/user/User.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userRepository: UserRepository,
+  ) {}
 
-  async create(data: UserDTO): Promise<User> {
-    const checkEmailExist = await this.prisma.user.findFirst({
-      where: {
-        email: data.email,
-      },
-    });
-
-    const checkUsernameExist = await this.prisma.user.findFirst({
-      where: {
-        name: data.name,
-      },
-    });
+  async create(data: UserDTO): Promise<User | null> {
+    const checkEmailExist = await this.userRepository.findByEmail(data.email);
+    const checkNameExist = await this.userRepository.findByName(data.password);
 
     if (checkEmailExist) {
       throw new HttpException(
@@ -29,9 +24,9 @@ export class UsersService {
       );
     }
 
-    if (checkUsernameExist) {
+    if (checkNameExist) {
       throw new HttpException(
-        'Já existe um cadastro com esse email',
+        'Já existe um cadastro com esse nome de usuário',
         HttpStatus.CONFLICT,
       );
     }
@@ -39,12 +34,7 @@ export class UsersService {
     data.password = await bcrypt.hash(data.password, 12);
 
     const user = await this.prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        phone: data.phone,
-      },
+      data,
     });
 
     delete user.password;
