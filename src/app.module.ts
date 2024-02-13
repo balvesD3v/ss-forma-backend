@@ -7,9 +7,15 @@ import { AuthGuard } from './auth/guard/auth.guard';
 import { UsersService } from './app/modules/users/users.service';
 import { PrismaService } from './app/database/prisma.service';
 import { UserRepository } from './app/repositories/user/User.repository';
+import { WorkoutRoutineModule } from './app/modules/workout-routine/workout-routine.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), UsersModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    UsersModule,
+    AuthModule,
+    WorkoutRoutineModule,
+  ],
   controllers: [],
   providers: [
     UsersService,

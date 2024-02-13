@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserDTO } from '../../dtos/user-dto/create-user.dto';
 import { PrismaService } from '../../database/prisma.service';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from '../../dtos/user-dto/update-user.dto';
 import { UserRepository } from '../../repositories/user/User.repository';
@@ -14,6 +14,8 @@ export class UsersService {
   ) {}
 
   async create(data: UserDTO): Promise<User | null> {
+    const rolesArray =
+      typeof data.roles === 'string' ? [data.roles as Role] : data.roles;
     const checkEmailExist = await this.userRepository.findByEmail(data.email);
     const checkNameExist = await this.userRepository.findByName(data.password);
 
@@ -34,7 +36,10 @@ export class UsersService {
     data.password = await bcrypt.hash(data.password, 12);
 
     const user = await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        roles: rolesArray,
+      },
     });
 
     delete user.password;
@@ -42,6 +47,8 @@ export class UsersService {
   }
 
   async update(id: string, data: UpdateUserDto) {
+    const rolesArray =
+      typeof data.roles === 'string' ? [data.roles as Role] : data.roles;
     const checkUserExist = await this.prisma.user.findUnique({
       where: {
         id,
@@ -55,7 +62,10 @@ export class UsersService {
     data.password = await bcrypt.hash(data.password, 12);
 
     const user = await this.prisma.user.update({
-      data,
+      data: {
+        ...data,
+        roles: rolesArray,
+      },
       where: {
         id,
       },

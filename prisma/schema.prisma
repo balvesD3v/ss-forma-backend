@@ -26,26 +26,23 @@ model User {
   @@map("users")
 }
 
-model Role {
-  id    String   @id @default(uuid())
-  name  RoleName @unique
-  users User[]
-
-  @@map("roles")
-}
-
-enum RoleName {
+enum Role {
   CLIENT
   INSTRUCTOR
   MANAGER
 }
 
+model RoutineToWorkout {
+  id String @id @default(uuid())
+}
+
 model WorkoutRoutine {
-  id                  String    @id @default(uuid())
-  workoutRoutine_name String
-  user                User      @relation(fields: [userId], references: [id])
-  userId              String
-  workout             Workout[]
+  id                   String    @id @default(uuid())
+  workoutRoutine_title String
+  workoutRoutine_name  String
+  user                 User      @relation(fields: [userId], references: [id])
+  userId               String
+  workout              Workout[]
 
   @@map("workoutsRoutine")
 }

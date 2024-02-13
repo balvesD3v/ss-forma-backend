@@ -10,6 +10,8 @@ import {
 export class UserDTO {
   id?: string;
 
+  roles: string;
+
   @IsNotEmpty({
     message: 'Required Field',
   })
