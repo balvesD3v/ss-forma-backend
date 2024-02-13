@@ -11,14 +11,11 @@ export class AuthService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async signIn({
-    email,
-    password,
-  }: AuthDTO): Promise<{ token: string; user: object }> {
-    const user = await this.userRepository.findByEmail(email);
-    const checkEmailExists = await this.userRepository.findByEmail(email);
+  async signIn(dto: AuthDTO): Promise<{ token: string; user: object }> {
+    const user = await this.userRepository.findByEmail(dto.email);
+    const checkEmailExists = await this.userRepository.findByEmail(dto.email);
     const passwordIsValid = await bcrypt.compare(
-      password,
+      dto.password,
       checkEmailExists.password,
     );
 
