@@ -1,12 +1,12 @@
 import { Workout } from '@prisma/client';
 
-export class CreateWorkoutDto implements Workout {
+export class WorkoutEntity implements Workout {
   id: string;
-  instructions: string;
-  routineId: string;
-  series: string;
   userId: string;
+  series: string;
   weight: string;
+  routineId: string;
+  instructions: string;
   workout_name: string;
   workout_type: string;
 }

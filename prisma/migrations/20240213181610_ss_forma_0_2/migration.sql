@@ -30,7 +30,8 @@ CREATE TABLE "workouts" (
     "title_workout" TEXT NOT NULL,
     "instructor_name" TEXT NOT NULL,
     "description_workout" TEXT NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "workouts_pkey" PRIMARY KEY ("id")
 );

@@ -12,15 +12,16 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  email      String    @unique
-  password   String
-  phone      String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  roles      Role[]
-  workouts   Workout[]
+  id             String           @id @default(uuid())
+  name           String
+  email          String           @unique
+  password       String
+  phone          String
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  roles          Role[]
+  workouts       Workout[]
+  WorkoutRoutine WorkoutRoutine[]
 
   @@map("users")
 }
@@ -39,15 +40,27 @@ enum RoleName {
   MANAGER
 }
 
-model Workout {
-  id                  String   @id @default(uuid())
-  User                User     @relation(fields: [userId], references: [id])
+model WorkoutRoutine {
+  id                  String    @id @default(uuid())
+  workoutRoutine_name String
+  user                User      @relation(fields: [userId], references: [id])
   userId              String
-  client_name         String
-  title_workout       String
-  instructor_name     String
-  description_workout String
-  date                DateTime
+  workout             Workout[]
+
+  @@map("workoutsRoutine")
+}
+
+model Workout {
+  id           String         @id @default(uuid())
+  User         User           @relation(fields: [userId], references: [id])
+  userId       String
+  workout_name String
+  workout_type String
+  weight       String
+  series       String
+  instructions String
+  routine      WorkoutRoutine @relation(fields: [routineId], references: [id])
+  routineId    String
 
   @@map("workouts")
 }
