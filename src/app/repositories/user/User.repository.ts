@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IUserRepository } from './IUser.repository';
 import { PrismaService } from '../../database/prisma.service';
 import { UserEntiy } from '../../entity/user/user.entity';
@@ -38,6 +38,12 @@ export class UserRepository implements IUserRepository {
   }
 
   async delete(id: string): Promise<UserEntiy> {
+    const checkUserExist = await this.findById(id);
+
+    if (!checkUserExist) {
+      throw new HttpException('Esse usuário não existe!', HttpStatus.CONFLICT);
+    }
+
     return await this.prismaService.user.delete({
       where: {
         id,
@@ -48,6 +54,17 @@ export class UserRepository implements IUserRepository {
   async update(id: string, data: UpdateUserDto): Promise<UserEntiy> {
     const rolesArray =
       typeof data.roles === 'string' ? [data.roles as Role] : data.roles;
+    const checkUserExist = await this.findById(id);
+    const emailInUse = await this.findByEmail(data.email);
+
+    if (!checkUserExist) {
+      throw new HttpException('Esse usuário não existe!', HttpStatus.CONFLICT);
+    }
+
+    if (emailInUse) {
+      throw new HttpException('Esse usuário existe!', HttpStatus.CONFLICT);
+    }
+
     const user = await this.prismaService.user.update({
       data: {
         ...data,
@@ -66,6 +83,25 @@ export class UserRepository implements IUserRepository {
   async create(data: UserDTO): Promise<UserEntiy> {
     const rolesArray =
       typeof data.roles === 'string' ? [data.roles as Role] : data.roles;
+    const checkEmailExist = await this.findByEmail(data.email);
+    const checkNameExist = await this.findByName(data.password);
+
+    if (checkEmailExist) {
+      throw new HttpException(
+        'Já existe um cadastro com esse email',
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    if (checkNameExist) {
+      throw new HttpException(
+        'Já existe um cadastro com esse nome de usuário',
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    data.password = await bcrypt.hash(data.password, 12);
+
     const user = await this.prismaService.user.create({
       data: {
         ...data,
@@ -73,7 +109,6 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    data.password = await bcrypt.hash(data.password, 12);
     delete user.password;
     return user;
   }

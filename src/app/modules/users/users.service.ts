@@ -13,43 +13,14 @@ export class UsersService {
   ) {}
 
   async create(data: UserDTO): Promise<User | null> {
-    const checkEmailExist = await this.userRepository.findByEmail(data.email);
-    const checkNameExist = await this.userRepository.findByName(data.password);
-
-    if (checkEmailExist) {
-      throw new HttpException(
-        'Já existe um cadastro com esse email',
-        HttpStatus.CONFLICT,
-      );
-    }
-
-    if (checkNameExist) {
-      throw new HttpException(
-        'Já existe um cadastro com esse nome de usuário',
-        HttpStatus.CONFLICT,
-      );
-    }
-
     return await this.userRepository.create(data);
   }
 
   async update(id: string, data: UpdateUserDto) {
-    const checkUserExist = await this.userRepository.findById(id);
-
-    if (!checkUserExist) {
-      throw new HttpException('Esse usuário não existe!', HttpStatus.CONFLICT);
-    }
-
     return await this.userRepository.update(id, data);
   }
 
   async remove(id: string) {
-    const checkUserExist = await this.userRepository.findById(id);
-
-    if (!checkUserExist) {
-      throw new HttpException('Esse usuário não existe!', HttpStatus.CONFLICT);
-    }
-
     return await this.userRepository.delete(id);
   }
 

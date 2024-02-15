@@ -12,38 +12,18 @@ export class WorkoutRoutineService {
   ) {}
 
   async create(data: CreateWorkoutRoutineDTO) {
-    const checkWorkoutExists =
-      await this.workoutRoutineRepository.findByWorkoutRoutineName(
-        data.workoutRoutine_title,
-      );
-
-    if (checkWorkoutExists) {
-      throw new HttpException(
-        'Já existe um treino com esse nome',
-        HttpStatus.CONFLICT,
-      );
-    }
-
-    const createRoutine = await this.prismaService.workoutRoutine.create({
-      data,
-    });
-
-    return createRoutine;
+    return this.workoutRoutineRepository.create(data);
   }
 
   async findAll() {
     return await this.prismaService.workoutRoutine.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} workoutRoutine`;
+  async update(id: string, data: UpdateWorkoutRoutineDto) {
+    return this.workoutRoutineRepository.update(id, data);
   }
 
-  update(id: number, updateWorkoutRoutineDto: UpdateWorkoutRoutineDto) {
-    return `This action updates a #${id} workoutRoutine`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} workoutRoutine`;
+  async remove(id: string) {
+    return this.workoutRoutineRepository.delete(id);
   }
 }

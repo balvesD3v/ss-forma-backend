@@ -30,11 +30,11 @@ export class WorkoutRoutineController {
     @Param('id') id: string,
     @Body() updateWorkoutRoutineDto: UpdateWorkoutRoutineDto,
   ) {
-    return this.workoutRoutineService.update(+id, updateWorkoutRoutineDto);
+    return this.workoutRoutineService.update(id, updateWorkoutRoutineDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.workoutRoutineService.remove(+id);
+    return this.workoutRoutineService.remove(id);
   }
 }
