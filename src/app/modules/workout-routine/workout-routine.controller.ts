@@ -25,11 +25,6 @@ export class WorkoutRoutineController {
     return this.workoutRoutineService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.workoutRoutineService.findOne(+id);
-  }
-
   @Patch(':id')
   update(
     @Param('id') id: string,

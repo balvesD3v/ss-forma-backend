@@ -32,10 +32,6 @@ enum Role {
   MANAGER
 }
 
-model RoutineToWorkout {
-  id String @id @default(uuid())
-}
-
 model WorkoutRoutine {
   id                   String    @id @default(uuid())
   workoutRoutine_title String
