@@ -8,6 +8,7 @@ import { UsersService } from './app/modules/users/users.service';
 import { PrismaService } from './app/database/prisma.service';
 import { UserRepository } from './app/repositories/user/User.repository';
 import { WorkoutRoutineModule } from './app/modules/workout-routine/workout-routine.module';
+import { WorkoutModule } from './app/modules/workout/workout.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { WorkoutRoutineModule } from './app/modules/workout-routine/workout-rout
     UsersModule,
     AuthModule,
     WorkoutRoutineModule,
+    WorkoutModule,
   ],
   controllers: [],
   providers: [

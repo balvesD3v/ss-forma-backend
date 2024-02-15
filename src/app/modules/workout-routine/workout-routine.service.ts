@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateWorkoutRoutineDTO } from '../../dtos/workoutRoutine-dto/create-workoutRoutine.dto';
-import { UpdateWorkoutRoutineDto } from '../../dtos/workoutRoutine-dto/update-workoutRoutine.dto';
+import { CreateWorkoutRoutineDTO } from '../../dtos/workout-routine-dto/create-workoutRoutine.dto';
+import { UpdateWorkoutRoutineDto } from '../../dtos/workout-routine-dto/update-workoutRoutine.dto';
 import { PrismaService } from 'src/app/database/prisma.service';
 import { WorkoutRoutineRepository } from 'src/app/repositories/workoutRoutine/WorkoutRoutine.repository';
 
@@ -16,7 +16,11 @@ export class WorkoutRoutineService {
   }
 
   async findAll() {
-    return await this.prismaService.workoutRoutine.findMany();
+    return await this.prismaService.workoutRoutine.findMany({
+      include: {
+        workout: true,
+      },
+    });
   }
 
   async update(id: string, data: UpdateWorkoutRoutineDto) {

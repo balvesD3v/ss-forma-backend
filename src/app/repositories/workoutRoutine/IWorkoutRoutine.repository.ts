@@ -1,5 +1,5 @@
-import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workoutRoutine-dto/create-workoutRoutine.dto';
-import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workoutRoutine-dto/update-workoutRoutine.dto';
+import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workout-routine-dto/create-workoutRoutine.dto';
+import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workout-routine-dto/update-workoutRoutine.dto';
 import { WorkoutRoutineEntity } from 'src/app/entity/workoutRoutine/workoutRoutine.entity';
 
 export interface IWorkoutRoutine {

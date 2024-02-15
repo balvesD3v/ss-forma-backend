@@ -2,8 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IWorkoutRoutine } from './IWorkoutRoutine.repository';
 import { WorkoutRoutineEntity } from 'src/app/entity/workoutRoutine/workoutRoutine.entity';
 import { PrismaService } from 'src/app/database/prisma.service';
-import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workoutRoutine-dto/create-workoutRoutine.dto';
-import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workoutRoutine-dto/update-workoutRoutine.dto';
+import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workout-routine-dto/create-workoutRoutine.dto';
+import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workout-routine-dto/update-workoutRoutine.dto';
 
 @Injectable()
 export class WorkoutRoutineRepository implements IWorkoutRoutine {
