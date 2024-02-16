@@ -12,16 +12,17 @@ datasource db {
 }
 
 model User {
-  id             String           @id @default(uuid())
-  name           String
-  email          String           @unique
-  password       String
-  phone          String
-  created_at     DateTime         @default(now())
-  updated_at     DateTime         @updatedAt
-  roles          Role[]
-  workouts       Workout[]
-  WorkoutRoutine WorkoutRoutine[]
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  password        String
+  phone           String
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  roles           Role[]
+  workouts        Workout[]
+  WorkoutRoutine  WorkoutRoutine[]
+  CombinedWorkout CombinedWorkout[]
 
   @@map("users")
 }
@@ -33,12 +34,13 @@ enum Role {
 }
 
 model WorkoutRoutine {
-  id                   String    @id @default(uuid())
+  id                   String            @id @default(uuid())
   workoutRoutine_title String
   workoutRoutine_name  String
-  user                 User      @relation(fields: [userId], references: [id])
+  user                 User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId               String
   workout              Workout[]
+  CombinedWorkout      CombinedWorkout[]
 
   @@map("workoutsRoutine")
 }
@@ -56,4 +58,17 @@ model Workout {
   routineId    String
 
   @@map("workouts")
+}
+
+model CombinedWorkout {
+  id           String         @id @default(uuid())
+  User         User           @relation(fields: [userId], references: [id])
+  userId       String
+  workout_name String
+  workout_type String
+  weight       String
+  series       String
+  instructions String?
+  routine      WorkoutRoutine @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  routineId    String
 }

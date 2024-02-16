@@ -1,6 +1,6 @@
-import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workout-routine-dto/create-workoutRoutine.dto';
-import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workout-routine-dto/update-workoutRoutine.dto';
-import { WorkoutRoutineEntity } from 'src/app/entity/workoutRoutine/workoutRoutine.entity';
+import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workout-routine-dto/create-workout-routine.dto';
+import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workout-routine-dto/update-workout-routine.dto';
+import { WorkoutRoutineEntity } from 'src/app/entity/workout-routine/workout-routine.entity';
 
 export interface IWorkoutRoutine {
   create(data: CreateWorkoutRoutineDTO): Promise<WorkoutRoutineEntity | null>;
@@ -12,4 +12,5 @@ export interface IWorkoutRoutine {
   findByWorkoutRoutineName(
     workoutRoutine_title: string,
   ): Promise<WorkoutRoutineEntity | null>;
+  findAll(): Promise<WorkoutRoutineEntity[] | null>;
 }

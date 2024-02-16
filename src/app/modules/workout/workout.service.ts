@@ -24,11 +24,11 @@ export class WorkoutService {
     return `This action returns all workout`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} workout`;
   }
 
-  update(id: number, updateWorkoutDto: UpdateWorkoutDto) {
-    return `This action updates a #${id} workout`;
+  update(id: string, data: UpdateWorkoutDto) {
+    return this.workoutRepository.update(id, data);
   }
 }

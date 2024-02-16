@@ -9,6 +9,7 @@ import { PrismaService } from './app/database/prisma.service';
 import { UserRepository } from './app/repositories/user/User.repository';
 import { WorkoutRoutineModule } from './app/modules/workout-routine/workout-routine.module';
 import { WorkoutModule } from './app/modules/workout/workout.module';
+import { CombinedWorkoutModule } from './app/modules/combined-workout/combined-workout.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { WorkoutModule } from './app/modules/workout/workout.module';
     AuthModule,
     WorkoutRoutineModule,
     WorkoutModule,
+    CombinedWorkoutModule,
   ],
   controllers: [],
   providers: [

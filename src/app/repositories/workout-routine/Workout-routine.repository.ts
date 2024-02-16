@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { IWorkoutRoutine } from './IWorkoutRoutine.repository';
-import { WorkoutRoutineEntity } from 'src/app/entity/workoutRoutine/workoutRoutine.entity';
+import { IWorkoutRoutine } from './IWorkout-routine.repository';
+import { WorkoutRoutineEntity } from 'src/app/entity/workout-routine/workout-routine.entity';
 import { PrismaService } from 'src/app/database/prisma.service';
-import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workout-routine-dto/create-workoutRoutine.dto';
-import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workout-routine-dto/update-workoutRoutine.dto';
+import { CreateWorkoutRoutineDTO } from 'src/app/dtos/workout-routine-dto/create-workout-routine.dto';
+import { UpdateWorkoutRoutineDto } from 'src/app/dtos/workout-routine-dto/update-workout-routine.dto';
 
 @Injectable()
 export class WorkoutRoutineRepository implements IWorkoutRoutine {
@@ -87,5 +87,14 @@ export class WorkoutRoutineRepository implements IWorkoutRoutine {
       },
     });
     return routineName;
+  }
+
+  async findAll(): Promise<WorkoutRoutineEntity[]> {
+    return await this.prismaService.workoutRoutine.findMany({
+      include: {
+        workout: true,
+        CombinedWorkout: true,
+      },
+    });
   }
 }
