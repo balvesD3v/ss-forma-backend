@@ -3,6 +3,7 @@ import { ICombinedRoutine } from './ICombined-routine.repository';
 import { CreateCombinedWorkoutDto } from 'src/app/dtos/combined-workout-dto/create-combined-workout.dto';
 import { CombinedWorkoutEntity } from 'src/app/entity/combined-workout/combined-workout.entity';
 import { PrismaService } from 'src/app/database/prisma.service';
+import { UpdateCombinedWorkoutDto } from 'src/app/dtos/combined-workout-dto/update-combined-workout.dto';
 
 @Injectable()
 export class CombinedRoutineRepository implements ICombinedRoutine {
@@ -20,6 +21,19 @@ export class CombinedRoutineRepository implements ICombinedRoutine {
   async delete(id: string): Promise<CombinedWorkoutEntity> {
     return await this.prismaService.combinedWorkout.delete({
       where: { id },
+    });
+  }
+  async update(
+    id: string,
+    data: UpdateCombinedWorkoutDto,
+  ): Promise<CombinedWorkoutEntity> {
+    return await this.prismaService.combinedWorkout.update({
+      data: {
+        ...data,
+      },
+      where: {
+        id,
+      },
     });
   }
 }

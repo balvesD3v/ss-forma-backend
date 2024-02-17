@@ -37,7 +37,7 @@ export class CombinedWorkoutController {
     @Param('id') id: string,
     @Body() updateCombinedWorkoutDto: UpdateCombinedWorkoutDto,
   ) {
-    return this.combinedWorkoutService.update(+id, updateCombinedWorkoutDto);
+    return this.combinedWorkoutService.update(id, updateCombinedWorkoutDto);
   }
 
   @Delete(':id')

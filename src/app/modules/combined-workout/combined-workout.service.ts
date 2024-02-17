@@ -23,8 +23,11 @@ export class CombinedWorkoutService {
     return `This action returns a #${id} combinedWorkout`;
   }
 
-  update(id: number, updateCombinedWorkoutDto: UpdateCombinedWorkoutDto) {
-    return `This action updates a #${id} combinedWorkout`;
+  async update(id: string, updateCombinedWorkoutDto: UpdateCombinedWorkoutDto) {
+    return await this.combinedWorkoutRepository.update(
+      id,
+      updateCombinedWorkoutDto,
+    );
   }
 
   remove(id: string) {
