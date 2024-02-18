@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ICombinedRoutine } from './ICombined-routine.repository';
 import { CreateCombinedWorkoutDto } from 'src/app/dtos/combined-workout-dto/create-combined-workout.dto';
 import { CombinedWorkoutEntity } from 'src/app/entity/combined-workout/combined-workout.entity';
@@ -23,10 +23,17 @@ export class CombinedRoutineRepository implements ICombinedRoutine {
       where: { id },
     });
   }
+
   async update(
     id: string,
     data: UpdateCombinedWorkoutDto,
   ): Promise<CombinedWorkoutEntity> {
+    const checkCombinedWorkoutExists = await this.findById(id);
+
+    if (!checkCombinedWorkoutExists) {
+      throw new HttpException('Esse treino não existe', HttpStatus.CONFLICT);
+    }
+
     return await this.prismaService.combinedWorkout.update({
       data: {
         ...data,
@@ -34,6 +41,12 @@ export class CombinedRoutineRepository implements ICombinedRoutine {
       where: {
         id,
       },
+    });
+  }
+
+  async findById(id: string) {
+    return await this.prismaService.combinedWorkout.findFirst({
+      where: { id },
     });
   }
 }
