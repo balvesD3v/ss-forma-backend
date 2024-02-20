@@ -65,6 +65,8 @@ export class UserRepository implements IUserRepository {
       throw new HttpException('Esse usuário existe!', HttpStatus.CONFLICT);
     }
 
+    data.password = await bcrypt.hash(data.password, 12);
+
     const user = await this.prismaService.user.update({
       data: {
         ...data,
@@ -75,7 +77,6 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    data.password = await bcrypt.hash(data.password, 12);
     delete user.password;
     return user;
   }

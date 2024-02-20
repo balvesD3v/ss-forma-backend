@@ -3,6 +3,7 @@ import {
   IsNotEmpty,
   IsPhoneNumber,
   IsString,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -24,10 +25,13 @@ export class UserDTO {
   @IsString()
   name: string;
 
-  @MinLength(4)
-  @MaxLength(20)
+  @MinLength(8, { message: 'A senha tem que ter mais de 8 caracteres' })
+  @MaxLength(20, { message: 'A senha tem que ter menos de 20 caracteres' })
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message:
+      'A senha precisa de uma letra maiuscula, uma minuscula, um caracter especial ou um número',
+  })
   password: string;
 
-  @IsPhoneNumber()
   phone: string;
 }

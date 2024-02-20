@@ -31,7 +31,10 @@ export class CombinedRoutineRepository implements ICombinedRoutine {
     const checkCombinedWorkoutExists = await this.findById(id);
 
     if (!checkCombinedWorkoutExists) {
-      throw new HttpException('Esse treino não existe', HttpStatus.CONFLICT);
+      throw new HttpException(
+        'Essa rotina de treino não existe',
+        HttpStatus.CONFLICT,
+      );
     }
 
     return await this.prismaService.combinedWorkout.update({
