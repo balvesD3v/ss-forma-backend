@@ -7,10 +7,7 @@ import { WorkoutRepository } from 'src/app/repositories/workout/Workout.reposito
 
 @Injectable()
 export class WorkoutService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly workoutRepository: WorkoutRepository,
-  ) {}
+  constructor(private readonly workoutRepository: WorkoutRepository) {}
 
   async create(data: CreateWorkoutDto): Promise<Workout | null> {
     return await this.workoutRepository.create(data);
@@ -28,7 +25,7 @@ export class WorkoutService {
     return `This action returns a #${id} workout`;
   }
 
-  update(id: string, data: UpdateWorkoutDto) {
-    return this.workoutRepository.update(id, data);
+  async update(id: string, data: UpdateWorkoutDto) {
+    return await this.workoutRepository.update(id, data);
   }
 }
